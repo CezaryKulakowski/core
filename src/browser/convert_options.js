@@ -87,7 +87,7 @@ function five0BaseOptions() {
                 'iframe': iframeBaseSettings
             },
             'disableInitialReload': false,
-            'node': false,
+            'node': true,
             'v2Api': true
         },
         'frame': true,
