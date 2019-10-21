@@ -173,9 +173,16 @@ ProcessTracker.prototype.launch = function(identity, options, errDataCallback) {
 
             this._uuidToPid[uuid] = procObj.id;
 
-            success({
-                uuid
-            });
+            // Do not call success callback right away but rather wait for
+            // process to initialize (see RUN-5724, RUN-5725 and RUN-5726).
+            let interval = setInterval(() => {
+                if (eProcess.isProcessInitialized(procObj.handle)) {
+                    clearInterval(interval);
+                    success({
+                        uuid
+                    });
+                }
+            }, 100);
 
         } else {
             error(certResult.error);
